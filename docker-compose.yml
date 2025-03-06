@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+    nextjs:
+        build: .
+        container_name: next-js-blog-app
+        ports:
+            - "3000:3000"
+        depends_on:
+            - mongodb
+        environment:
+            - DATABASE_URL=mongodb://mongodb:27017/mydb
+        volumes:
+            - .:/app
+            - /app/node_modules
+        command: sh -c "npx prisma generate && npm run dev"
+
+    mongodb:
+        image: mongo:8.0
+        container_name: mongodb-container
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongodb_data:/data/db
+        environment:
+            - MONGO_INITDB_DATABASE=mydb
+
+volumes:
+    mongodb_data:

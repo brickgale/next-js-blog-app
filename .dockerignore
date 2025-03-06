@@ -1,0 +1,17 @@
+# Only ignore truly unnecessary files
+.git
+.gitignore
+.DS_Store
+
+# Docker files 
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Dependencies
+node_modules
+
+# Build artifacts
+dist
+Build
+*.log
