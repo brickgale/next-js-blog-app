@@ -6,6 +6,7 @@ services:
         container_name: next-js-blog-app
         ports:
             - "3000:3000"
+            - "5555:5555"  # Prisma Studio port
         depends_on:
             - mongodb
         environment:

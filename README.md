@@ -10,6 +10,17 @@ docker-compose up --build
 docker-compose up -d
 ```
 
+Run this command to access shell:
+```bash
+docker exec -it next-js-blog-app sh
+```
+
+To run Prisma Studio:
+
+```bash
+docker exec -it next-js-blog-app npx prisma studio
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

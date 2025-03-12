@@ -15,8 +15,8 @@ RUN npx prisma generate
 # Copy the rest of the application
 COPY . .
 
-# Expose port 3000
-EXPOSE 3000
+# Expose the Next.js port & Prisma Studio port
+EXPOSE 3000 5555
 
 # Start the application
 CMD ["npm", "run", "dev"]

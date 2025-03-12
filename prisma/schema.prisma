@@ -16,15 +16,20 @@ datasource db {
 model User {
     id    String @id @default(auto()) @map("_id") @db.ObjectId
     name String
-    email String
+    email String @unique
+    posts Post[]
 }
 
 model Post {
     id     String @id @default(auto()) @map("_id") @db.ObjectId
     title  String
+    slug   String @unique
     content String
     published Boolean @default(false)
-    userId String @db.ObjectId
+    author     User       @relation(fields: [authorId], references: [id])
+    authorId   String     @db.ObjectId
     updatedAt DateTime @default(now())
     createdAt DateTime @default(now())
+
+    @@unique([authorId, slug])
 }
