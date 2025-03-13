@@ -24,6 +24,7 @@ model Post {
     id     String @id @default(auto()) @map("_id") @db.ObjectId
     title  String
     slug   String @unique
+    description String
     content String
     published Boolean @default(false)
     author     User       @relation(fields: [authorId], references: [id])
