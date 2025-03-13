@@ -1,3 +1,4 @@
+import Header from "@/components/ui/header";
 import prisma from "@/lib/prisma";
 
 interface Params {
@@ -14,7 +15,8 @@ export default async function Post({ params }: Params) {
     });
 
     return (
-        <div className="flex">
+        <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
+            <Header />
             <div>{post?.title}</div>
             <div>{post?.content}</div>
         </div>
