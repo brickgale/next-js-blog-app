@@ -6,7 +6,7 @@ interface Params {
     };
 }
 
-export default async function Post({ params: { slug } }: Params) {
+export default async function Post({ params }: Params) {
     const post = await prisma.post.findUnique({
         where: {
             slug: params.slug,
@@ -14,7 +14,9 @@ export default async function Post({ params: { slug } }: Params) {
     });
 
     return (
-        <div>{post?.title}</div>
-        <div>{post?.content}</div>
+        <div className="flex">
+            <div>{post?.title}</div>
+            <div>{post?.content}</div>
+        </div>
     );
 }

@@ -28,7 +28,7 @@ export default async function Home() {
             </div>
             <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
                 {posts?.map((post) => (
-                    <Link key={post.id} href="/login" href={`/post/${post.slug}`}>
+                    <Link key={post.id} href="/login" href={`/posts/${post.slug}`}>
                         <Card className="w-[350px] py-4">
                             <CardHeader className="px-4">
                                 <CardTitle>{post.title}</CardTitle>
