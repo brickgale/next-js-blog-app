@@ -32,7 +32,6 @@ export default async function Login() {
                                 "use server";
                                const signin = await executeAction({
                                     actionFn: async () => {
-                                        console.log("formData", formData);
                                         await signIn("credentials", formData);
                                     },
                                 });
