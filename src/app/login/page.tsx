@@ -1,11 +1,11 @@
 import Header from '@/components/ui/header';
-import { Card, CardTitle, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
+import { Card, CardTitle, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { Metadata } from "next";
 import { GithubSignIn } from '@/components/github-sign-in';
-import { executeAction } from '@/lib/executionAction';
+import { executeAction } from '@/lib/executeAction';
 import { auth, signIn } from '@/lib/auth';
 import { redirect } from "next/navigation";
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function Login() {
     const session = await auth();
-    if (session) redirect("/");
+    if (session) redirect("/dashboard");
 
     return (
         <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
@@ -30,21 +30,28 @@ export default async function Login() {
                         <form 
                             action={async (formData) => {
                                 "use server";
-                                await executeAction({
+                               const signin = await executeAction({
                                     actionFn: async () => {
+                                        console.log("formData", formData);
                                         await signIn("credentials", formData);
                                     },
                                 });
+
+                                if(signin.success) {
+                                    redirect("/dashboard");
+                                } else {
+                                    redirect("/login?error=invalid_credentials");
+                                }
                             }}
                         >
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col space-y-1.5">
                                     <Label htmlFor="name">Email</Label>
-                                    <Input type="email" placeholder="Enter Email" />
+                                    <Input name="email" type="email" placeholder="Enter Email" required />
                                 </div>
                                 <div className="flex flex-col space-y-1.5">
                                     <Label htmlFor="password">Password</Label>
-                                    <Input type="password" placeholder="Enter Password" />
+                                    <Input name="password" type="password" placeholder="Enter Password" required />
                                 </div>
                                 <Button type="submit" className="w-full">Login</Button>
                             </div>
