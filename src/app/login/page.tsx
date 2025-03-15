@@ -8,15 +8,43 @@ import { GithubSignIn } from '@/components/github-sign-in';
 import { executeAction } from '@/lib/executeAction';
 import { auth, signIn } from '@/lib/auth';
 import { redirect } from "next/navigation";
+import {
+    Alert,
+    AlertDescription,
+    AlertTitle,
+  } from "@/components/ui/alert";
 
 export const metadata: Metadata = {
     title: "Author Login | Simple Blog App",
     description: "Author Login Page",
 };
 
-export default async function Login() {
+export default async function Login({ searchParams }: { searchParams: { error?: string } }) {
     const session = await auth();
     if (session) redirect("/dashboard");
+
+    const params = await searchParams;
+    let error: string = '';
+    console.log(params.error);
+
+    if(params.error && params.error === "invalid_credentials") {
+        error = "Invalid credentials. Please try again.";
+    }
+
+    const formAction = async (formData: FormData) => {
+        "use server";
+        const signin = await executeAction({
+            actionFn: async () => {
+                await signIn("credentials", formData);
+            },
+        });
+
+        if(signin.success) {
+            redirect("/dashboard");
+        } else {
+            redirect("/login?error=invalid_credentials");
+        }
+    };
 
     return (
         <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
@@ -27,22 +55,13 @@ export default async function Login() {
                         <CardTitle className="text-center text-xl uppercase">Author Login</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <form 
-                            action={async (formData) => {
-                                "use server";
-                               const signin = await executeAction({
-                                    actionFn: async () => {
-                                        await signIn("credentials", formData);
-                                    },
-                                });
-
-                                if(signin.success) {
-                                    redirect("/dashboard");
-                                } else {
-                                    redirect("/login?error=invalid_credentials");
-                                }
-                            }}
-                        >
+                        {error && (
+                            <Alert variant="destructive" className="mb-4 border border-red-500 bg-red-50 text-red-800">
+                                <AlertTitle>Error</AlertTitle>
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
+                        <form action={formAction}>
                             <div className="flex flex-col gap-4">
                                 <div className="flex flex-col space-y-1.5">
                                     <Label htmlFor="name">Email</Label>
