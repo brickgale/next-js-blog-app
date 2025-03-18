@@ -25,7 +25,6 @@ export default async function Login({ searchParams }: { searchParams: { error?: 
 
     const params = await searchParams;
     let error: string = '';
-    console.log(params.error);
 
     if(params.error && params.error === "invalid_credentials") {
         error = "Invalid credentials. Please try again.";
