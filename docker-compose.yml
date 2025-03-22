@@ -20,7 +20,6 @@ services:
     mongodb:
         image: mongo:8.0
         container_name: mongodb-container
-        restart: always
         ports:
             - "27017:27017"
         command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]

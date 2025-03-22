@@ -1,10 +1,17 @@
 import Header from '@/components/ui/header';
+import PostsTable from '@/components/admin/postsTable';
 
 export default function Dashboard() {
+
     return (
         <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
             <Header hideLoginBtn />
-            Dashboard
+            <div className="flex flex-col gap-6 w-full p-5">
+                <h1>Posts</h1>
+                <div className="rounded-md border">
+                    <PostsTable />
+                </div>
+            </div>
         </div>
     );
 }
