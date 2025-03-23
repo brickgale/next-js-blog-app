@@ -17,15 +17,18 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-import { ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { Pencil, Trash } from "lucide-react";
  
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
 
 interface Post {
     id: string;
     slug: string;
     title: string;
     description: string;
+    published: boolean;
 }
 
 const columns: ColumnDef<Post>[] = [
@@ -40,6 +43,16 @@ const columns: ColumnDef<Post>[] = [
     {
       accessorKey: "description",
       header: "Description",
+    },
+    {
+      accessorKey: "published",
+      header: "Status",
+      cell: ({ row }) => {
+        return (
+            row.original.published ? 
+            (<Badge className="bg-green-500">Published</Badge>) : (<Badge variant="secondary">Draft</Badge>)
+        );
+      }
     },
     {
         accessorKey: "id",
@@ -118,7 +131,7 @@ export default function PostsTable() {
                                 data-state={row.getIsSelected() && "selected"}
                             >
                             {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id}>
+                                <TableCell key={cell.id} className="min-w-[200px]">
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -129,12 +142,17 @@ export default function PostsTable() {
                         ))
                         ) : (
                             <TableRow>
-                                <TableCell
-                                    colSpan={columns.length}
-                                    className="h-24 text-center"
-                                >
-                                No results.
-                                </TableCell>
+                                {columns.map((column, key) => (
+                                    <TableCell className="min-w-[200px]" key={key}>
+                                        {key == columns.length-1 ? (
+                                            <div className="flex items-center justify-center">
+                                                <Skeleton className="w-[150px] h-7 my-1 text-center" />
+                                            </div>
+                                        ): (
+                                            <Skeleton className="w-[150px] h-7 my-1" />
+                                        )} 
+                                    </TableCell>
+                                ))}
                             </TableRow>
                         )}
                     </TableBody>

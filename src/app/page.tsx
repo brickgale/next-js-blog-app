@@ -12,7 +12,7 @@ export default async function Home() {
             <Header />
             <main className="flex flex-col p-5 gap-8 row-start-2 items-center justify-center">
                 {posts?.map((post) => (
-                    <Link key={post.id} href="/login" href={`/posts/${post.slug}`}>
+                    <Link key={post.id} href={`/posts/${post.slug}`}>
                         <Card className="w-[350px] py-4">
                             <CardHeader className="px-4">
                                 <CardTitle>{post.title}</CardTitle>

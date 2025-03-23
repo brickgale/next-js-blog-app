@@ -33,7 +33,14 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
                 )}
 
                 {session && (
-                    <SignOut />
+                    <div className="flex gap-4">
+                        <Button asChild variant="ghost" >
+                            <Link href="/dashboard">
+                                Dashboard
+                            </Link>
+                        </Button>
+                        <SignOut />
+                    </div>
                 )}
             </div>
         </header>
