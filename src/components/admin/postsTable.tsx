@@ -22,14 +22,9 @@ import { Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Post } from "@/lib/types/post";
 
-interface Post {
-    id: string;
-    slug: string;
-    title: string;
-    description: string;
-    published: boolean;
-}
+import EditPostDialog from "@/components/admin/editPostDialog";
 
 const columns: ColumnDef<Post>[] = [
     {
@@ -58,11 +53,22 @@ const columns: ColumnDef<Post>[] = [
         accessorKey: "id",
         header: () => <div className="text-center">Actions</div>,
         cell: ({ row }) => {
+            const [openPostDialog, setOpenPostDialog] = useState(false);
+
+            const editPost = () => {
+                setOpenPostDialog(!openPostDialog);
+            }
+            
+            const deletePost = (post: Post) => {
+                console.log(post);
+            }
+
             return (
                 <div className="flex justify-center gap-2">
-                    <Button variant="outline" onClick={()=> editPost(row.original)}>
+                    <Button variant="outline" onClick={editPost}>
                         <Pencil /> Edit
                     </Button>
+                    <EditPostDialog open={openPostDialog} openChangeFn={setOpenPostDialog} post={row.original} />
                     <Button variant="destructive" onClick={() => deletePost(row.original)}>
                         <Trash /> Delete
                     </Button>
@@ -71,14 +77,6 @@ const columns: ColumnDef<Post>[] = [
         }
     }
 ];
-
-const editPost = (post: Post) => {
-    console.log(post);
-}
-
-const deletePost = (post: Post) => {
-    console.log(post);
-}
 
 export default function PostsTable() {
     const [posts, setPosts] = useState<Post[]>([]);
@@ -110,7 +108,7 @@ export default function PostsTable() {
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id}>
+                                        <TableHead key={header.id} className="px-3">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -131,7 +129,7 @@ export default function PostsTable() {
                                 data-state={row.getIsSelected() && "selected"}
                             >
                             {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id} className="min-w-[200px]">
+                                <TableCell key={cell.id} className="min-w-[200px] px-4">
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext()
@@ -143,7 +141,7 @@ export default function PostsTable() {
                         ) : (
                             <TableRow>
                                 {columns.map((column, key) => (
-                                    <TableCell className="min-w-[200px]" key={key}>
+                                    <TableCell className="min-w-[200px] px-4" key={key}>
                                         {key == columns.length-1 ? (
                                             <div className="flex items-center justify-center">
                                                 <Skeleton className="w-[150px] h-7 my-1 text-center" />
