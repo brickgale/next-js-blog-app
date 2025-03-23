@@ -1,8 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signOut } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
-const SignOut = () => {
+export default function Logout() {
     const handleSignOut = async () => {
         await signOut();
     };
@@ -10,10 +11,8 @@ const SignOut = () => {
     return (
         <div className="flex justify-center">
             <Button variant="destructive" onClick={handleSignOut}>
-                Sign Out
+                Logout <LogOut />
             </Button>
         </div>
     );
 };
-
-export { SignOut };

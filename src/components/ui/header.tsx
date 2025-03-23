@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
-import { SignOut } from "../sign-out";
+import Logout from "@/components/log-out";
 
 interface HeaderProps {
     hideLoginBtn?: boolean;
@@ -25,7 +25,7 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
                     />
                 </Link>
                 {(!hideLoginBtn && !session) && (
-                    <Button asChild variant="outline" >
+                    <Button asChild variant="outline">
                         <Link href="/login">
                             Login <LogIn />
                         </Link>
@@ -34,12 +34,12 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
 
                 {session && (
                     <div className="flex gap-4">
-                        <Button asChild variant="ghost" >
+                        <Button asChild variant="ghost">
                             <Link href="/dashboard">
                                 Dashboard
                             </Link>
                         </Button>
-                        <SignOut />
+                        <Logout />
                     </div>
                 )}
             </div>
