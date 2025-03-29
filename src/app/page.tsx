@@ -10,10 +10,10 @@ export default async function Home() {
     return (
         <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
             <Header />
-            <main className="flex flex-col p-5 gap-8 row-start-2 items-center justify-center">
+            <main className="flex flex-row p-5 items-center w-full flex-wrap -m-2">
                 {posts?.map((post) => (
-                    <Link key={post.id} href={`/posts/${post.slug}`}>
-                        <Card className="w-[350px] py-4">
+                    <Link key={post.id} href={`/posts/${post.slug}`} className="w-full sm:w-1/2 lg:w-1/3 p-2 cursor-pointer">
+                        <Card className="w-full">
                             <CardHeader className="px-4">
                                 <CardTitle>{post.title}</CardTitle>
                                 <CardDescription>{post.description}</CardDescription>

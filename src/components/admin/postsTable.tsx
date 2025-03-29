@@ -28,26 +28,26 @@ import EditPostDialog from "@/components/admin/editPostDialog";
 
 const columns: ColumnDef<Post>[] = [
     {
-      accessorKey: "title",
-      header: "Title",
+        accessorKey: "title",
+        header: "Title",
     },
     {
-      accessorKey: "slug",
-      header: "Slug"
+        accessorKey: "slug",
+        header: "Slug"
     },
     {
-      accessorKey: "description",
-      header: "Description",
+        accessorKey: "description",
+        header: "Description",
     },
     {
-      accessorKey: "published",
-      header: "Status",
-      cell: ({ row }) => {
-        return (
-            row.original.published ? 
-            (<Badge className="bg-green-500">Published</Badge>) : (<Badge variant="secondary">Draft</Badge>)
-        );
-      }
+        accessorKey: "published",
+        header: "Status",
+        cell: ({ row }) => {
+            return (
+                row.original.published ? 
+                (<Badge className="bg-green-500">Published</Badge>) : (<Badge variant="secondary">Draft</Badge>)
+            );
+        }
     },
     {
         accessorKey: "id",
@@ -91,7 +91,7 @@ export default function PostsTable() {
         }
         
         fetchData();
-    }, []);
+    }, [setPosts]);
 
     const table = useReactTable({
         data: posts,

@@ -37,6 +37,7 @@ export default function EditPostDialog({ open, openChangeFn, post }: PostDialogP
         });
 
         if(result.success) {
+            openChangeFn(false);
             router.refresh();
         } else {
             // show errors

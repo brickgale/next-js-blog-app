@@ -33,6 +33,7 @@ export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
         });
 
         if(result.success) {
+            openChangeFn(false);
             router.refresh();
         } else {
             // show errors
@@ -67,7 +68,7 @@ export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="slug">Publish</Label>
                             <Switch checked={publish} onCheckedChange={setPublish}  />
-                            <input type="hidden" name="publish" value={publish ? 1 : 0} />
+                            <input type="hidden" name="published" value={publish ? 1 : 0} />
                         </div>
                         <Button type="submit" className="w-full">Submit</Button>
                     </div>
