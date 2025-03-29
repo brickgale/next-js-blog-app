@@ -1,3 +1,5 @@
+'use client'
+
 import { 
     Dialog,
     DialogContent,
@@ -15,6 +17,8 @@ import { PostDialogProps } from "@/lib/types/post";
 import { executeAction } from "@/lib/executeAction";
 import { useRouter } from "next/navigation";
 
+import { createPost } from "@/lib/actions/post";
+
 import { useState } from "react";
 
 export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
@@ -24,8 +28,7 @@ export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
     const formAction = async (formData: FormData) => {
         const result = await executeAction({
             actionFn: async () => {
-                
-                // await createPost("credentials", formData);
+                await createPost(formData);
             },
         });
 
@@ -59,7 +62,7 @@ export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="slug">Content</Label>
-                            <Input name="description" placeholder="Enter Content" required />
+                            <Input name="content" placeholder="Enter Content" required />
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="slug">Publish</Label>

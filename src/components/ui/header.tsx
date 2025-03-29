@@ -11,6 +11,7 @@ interface HeaderProps {
 
 export default async function Header({ hideLoginBtn = false }: HeaderProps) {
     const session = await auth();
+    
     return (
         <header className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full p-5">
             <div className="flex justify-between w-full gap-4">

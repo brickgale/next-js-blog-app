@@ -1,3 +1,5 @@
+'use client'
+
 import { 
     Dialog,
     DialogContent,
@@ -15,6 +17,8 @@ import { PostDialogProps } from "@/lib/types/post";
 import { executeAction } from "@/lib/executeAction";
 import { useRouter } from "next/navigation";
 
+import { updatePost } from "@/lib/actions/post";
+
 import { useEffect, useState } from "react";
 
 export default function EditPostDialog({ open, openChangeFn, post }: PostDialogProps) {
@@ -28,8 +32,7 @@ export default function EditPostDialog({ open, openChangeFn, post }: PostDialogP
     const formAction = async (formData: FormData) => {
         const result = await executeAction({
             actionFn: async () => {
-                
-                // await createPost("credentials", formData);
+                await updatePost(formData);
             },
         });
 
@@ -51,24 +54,25 @@ export default function EditPostDialog({ open, openChangeFn, post }: PostDialogP
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="name">Title</Label>
-                        <Input name="title" placeholder="Enter Title" value={post?.title} required />
+                        <Input name="title" placeholder="Enter Title" defaultValue={post?.title} required />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="slug">Slug</Label>
-                        <Input name="slug" placeholder="Enter Slug" value={post?.slug} required />
+                        <Input name="slug" placeholder="Enter Slug" defaultValue={post?.slug} required />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="slug">Description (Preview for Content)</Label>
-                        <Input name="description" placeholder="Enter Description" value={post?.description} required />
+                        <Input name="description" placeholder="Enter Description" defaultValue={post?.description} required />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="slug">Content</Label>
-                        <Input name="description" placeholder="Enter Content" value={post?.content} required />
+                        <Input name="content" placeholder="Enter Content" defaultValue={post?.content} required />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="slug">Publish</Label>
                         <Switch checked={publish} onCheckedChange={setPublish} />
-                        <input type="hidden" name="publish" value={publish ? 1 : 0} />
+                        <input type="hidden" name="published" defaultValue={publish ? 1 : 0} />
+                        <input type="hidden" name="id" defaultValue={post?.id} />
                     </div>
                     <Button type="submit" className="w-full">Submit</Button>
                 </div>
