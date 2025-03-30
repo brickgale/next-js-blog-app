@@ -16,8 +16,8 @@ export async function updatePost(formData: FormData) {
     return response.json();
 }
 
-export async function deletePost({ id }: { id: string }) {
-    const response = await fetch(`/api/posts/?${ id }`, {
+export async function deletePost(id: string) {
+    const response = await fetch(`/api/posts/${ id }`, {
         method: "DELETE",
     });
 

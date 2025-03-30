@@ -17,7 +17,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-import { Pencil, Trash } from "lucide-react";
+import { Delete, Pencil, Trash } from "lucide-react";
  
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -25,6 +25,7 @@ import { Badge } from "@/components/ui/badge";
 import { Post } from "@/lib/types/post";
 
 import EditPostDialog from "@/components/admin/editPostDialog";
+import DeletePostDialog from "@/components/admin/deletePostDialog";
 
 const columns: ColumnDef<Post>[] = [
     {
@@ -54,14 +55,15 @@ const columns: ColumnDef<Post>[] = [
         header: () => <div className="text-center">Actions</div>,
         cell: ({ row }) => {
             const [openPostDialog, setOpenPostDialog] = useState(false);
+            const [openDeletePostDialog, setOpenDeletePostDialog] = useState(false);
 
             const editPost = () => {
                 setOpenPostDialog(!openPostDialog);
-            }
+            };
             
-            const deletePost = (post: Post) => {
-                console.log(post);
-            }
+            const deletePost = () => {
+                setOpenDeletePostDialog(!openDeletePostDialog);
+            };
 
             return (
                 <div className="flex justify-center gap-2">
@@ -69,9 +71,10 @@ const columns: ColumnDef<Post>[] = [
                         <Pencil /> Edit
                     </Button>
                     <EditPostDialog open={openPostDialog} openChangeFn={setOpenPostDialog} post={row.original} />
-                    <Button variant="destructive" onClick={() => deletePost(row.original)}>
+                    <Button variant="destructive" onClick={deletePost}>
                         <Trash /> Delete
                     </Button>
+                    <DeletePostDialog open={openDeletePostDialog} openChangeFn={setOpenDeletePostDialog} post={row.original} />
                 </div>
             );
         }
@@ -81,17 +84,18 @@ const columns: ColumnDef<Post>[] = [
 export default function PostsTable() {
     const [posts, setPosts] = useState<Post[]>([]);
 
-    useEffect(() => {
-        async function fetchData() {
-            const res = await fetch('/api/posts', {
+    const fetchData = async () => {
+        const res = await fetch('/api/posts', {
             cache: "no-cache",
         });
-            const data = await res.json();
-            setPosts(data);
-        }
-        
+
+        const data = await res.json();
+        setPosts(data);
+    }
+
+    useEffect(() => {
         fetchData();
-    }, [setPosts]);
+    }, []);
 
     const table = useReactTable({
         data: posts,
@@ -112,9 +116,10 @@ export default function PostsTable() {
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )
+                                            }
                                         </TableHead>
                                     );
                                 })}

@@ -6,12 +6,11 @@ import { postSchema, type PostSchema } from "@/lib/schema";
 const formDataToJson = (formData: FormData) => {
     const jsonObject: Record<string, any> = {};
     formData.forEach((value, key) => {
-      jsonObject[key] = formData.get(key)
+        jsonObject[key] = formData.get(key)
     });
     return jsonObject;
 };
 
-  
 // GET: Fetch all posts
 export const GET = async (req: NextRequest) => {    
     try {
@@ -83,35 +82,6 @@ export const PUT = async (req: NextRequest) => {
         });
 
         return NextResponse.json(post, { status: 200 });
-    } catch (error) {
-        return NextResponse.json(
-            { error },
-            { status: 500 }
-        );
-    }
-};
-
-// DELETE: Delete a post
-export const DELETE = async (req: NextRequest) => {
-    try {
-        const session = await auth();
-        if (!session) {
-            return NextResponse.json(
-                { error: "Unauthorized" },
-                { status: 401 }
-            );
-        }
-
-        const { id } = await req.json();
-
-        await prisma.post.delete({
-            where: { id },
-        });
-
-        return NextResponse.json(
-            { message: "Post deleted successfully" },
-            { status: 200 }
-        );
     } catch (error) {
         return NextResponse.json(
             { error },
