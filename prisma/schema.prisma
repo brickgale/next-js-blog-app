@@ -6,6 +6,7 @@
 
 generator client {
     provider = "prisma-client-js"
+    binaryTargets = env("BINARY_TARGET") // Use this to set the binary target for your Prisma Client
 }
 
 datasource db {

@@ -15,15 +15,15 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
     return (
         <header className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full p-5">
             <div className="flex justify-between w-full gap-4">
-                <Link href="/">
+                <Link href="/" className="flex flex-row items-center gap-2 font-bold text-2xl">
                     <Image
                         className="dark:invert"
                         src="/next.svg"
                         alt="Next.js logo"
-                        width={150}
-                        height={38}
+                        width={40}
+                        height={40}
                         priority
-                    />
+                    /> Blog
                 </Link>
                 {(!hideLoginBtn && !session) && (
                     <Button asChild variant="outline">

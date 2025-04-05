@@ -15,14 +15,12 @@ import { FilePlus2 } from "lucide-react";
 
 import { PostDialogProps } from "@/lib/types/post";
 import { executeAction } from "@/lib/executeAction";
-import { useRouter } from "next/navigation";
 
 import { createPost } from "@/lib/actions/post";
 
 import { useState } from "react";
 
 export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
-    const router = useRouter();
     const [ publish, setPublish ] = useState(false);
 
     const formAction = async (formData: FormData) => {
@@ -34,7 +32,6 @@ export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
 
         if(result.success) {
             openChangeFn(false);
-            router.refresh();
         } else {
             // show errors
         }
