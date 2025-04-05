@@ -34,7 +34,7 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
                 )}
 
                 {session && (
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 items-center">
                         <Button asChild variant="ghost">
                             <Link href="/dashboard">
                                 Dashboard
