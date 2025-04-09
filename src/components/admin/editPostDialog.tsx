@@ -19,12 +19,14 @@ import { executeAction } from "@/lib/executeAction";
 import { updatePost } from "@/lib/actions/post";
 
 import { useEffect, useState } from "react";
+import { usePostsContext } from "@/contexts/posts";
 
 export default function EditPostDialog({ open, openChangeFn, post }: PostDialogProps) {
     const [ publish, setPublish ] = useState(false);
+    const { callFetchData } = usePostsContext();
 
     useEffect(() => {
-        setPublish(post?.published);
+        setPublish(post?.published ?? false);
     }, [post]);
 
     const formAction = async (formData: FormData) => {
@@ -36,6 +38,7 @@ export default function EditPostDialog({ open, openChangeFn, post }: PostDialogP
 
         if(result.success) {
             openChangeFn(false);
+            callFetchData();
         } else {
             // show errors
         }

@@ -19,9 +19,11 @@ import { executeAction } from "@/lib/executeAction";
 import { createPost } from "@/lib/actions/post";
 
 import { useState } from "react";
+import { usePostsContext } from "@/contexts/posts";
 
 export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
     const [ publish, setPublish ] = useState(false);
+    const { callFetchData } = usePostsContext();
 
     const formAction = async (formData: FormData) => {
         const result = await executeAction({
@@ -32,6 +34,7 @@ export default function AddPostDialog({ open, openChangeFn }: PostDialogProps) {
 
         if(result.success) {
             openChangeFn(false);
+            callFetchData();
         } else {
             // show errors
         }

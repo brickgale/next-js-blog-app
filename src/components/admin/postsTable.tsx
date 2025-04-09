@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { usePostsContext } from "@/contexts/posts";
 import {
     ColumnDef,
     flexRender,
@@ -82,20 +83,7 @@ const columns: ColumnDef<Post>[] = [
 ];
 
 export default function PostsTable() {
-    const [posts, setPosts] = useState<Post[]>([]);
-
-    const fetchData = async () => {
-        const res = await fetch('/api/posts', {
-            cache: "no-cache",
-        });
-
-        const data = await res.json();
-        setPosts(data);
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, []);
+    const { posts } = usePostsContext();
 
     const table = useReactTable({
         data: posts,
