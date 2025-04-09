@@ -14,12 +14,13 @@ import { PostDialogProps } from "@/lib/types/post";
 import { executeAction } from "@/lib/executeAction";
 
 import { deletePost } from "@/lib/actions/post";
+import { usePostsContext } from "@/contexts/posts";
 
 export default function DeletePostDialog({ open, openChangeFn, post }: PostDialogProps) {
+    const { callFetchData } = usePostsContext();
 
     const confirmDelete = async () => {
-        console.log('confirm delete');
-
+        if (!post?.id) return;
         const result = await executeAction({
             actionFn: async () => {
                 await deletePost(post?.id);
@@ -28,6 +29,7 @@ export default function DeletePostDialog({ open, openChangeFn, post }: PostDialo
 
         if(result.success) {
             openChangeFn(false);
+            callFetchData();
         } else {
             // show errors
         }
