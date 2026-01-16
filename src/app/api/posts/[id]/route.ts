@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
 // DELETE: Delete a post
-export const DELETE = async (req: NextRequest, { params }: { params: { id: string } }) => {
+export const DELETE = async (req: NextRequest, { params }: { params: Promise<{ id: string }> }) => {
     try {
         const session = await auth();
         if (!session) {
@@ -13,7 +13,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
             );
         }
 
-        const { id } = params;
+        const { id } = await params;
 
         console.log(req, id);
 
