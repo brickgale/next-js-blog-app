@@ -1,27 +1,32 @@
-version: '3.8'
-
 services:
-    nextjs:
+    app:
         build: .
-        container_name: next-js-blog-app
+        container_name: blog-app
         ports:
-            - "3000:3000"
-            - "5555:5555"  # Prisma Studio port
+            - "${NEXTJS_PORT:-3001}:3000"  # Default to 3001 if 3000 is in use
         depends_on:
             - mongodb
         environment:
             - DATABASE_URL=mongodb://mongodb:27017/mydb
         volumes:
             - .:/app
-            - /app/node_modules
-            - ./node_modules:/app/node_modules  # Mirror node_modules to host
+            - /app/node_modules  # Use container's node_modules, not host's
         command: sh -c "npx prisma generate && npm run dev"
+
+    studio:
+        build: .
+        container_name: prisma-studio
+        ports:
+            - "${PRISMA_STUDIO_PORT:-5555}:5555"
+        command: npx prisma studio
+        depends_on:
+            - app # Ensures generate runs in the app container first if using shared volumes
 
     mongodb:
         image: mongo:8.0
         container_name: mongodb-container
         ports:
-            - "27017:27017"
+            - "${MONGODB_PORT:-27018}:27017"  # Default to 27018 if 27017 is in use
         command: ["mongod", "--replSet", "rs0", "--bind_ip_all"]
         volumes:
             - mongodb_data:/data/db
