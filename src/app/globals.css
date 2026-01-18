@@ -43,6 +43,16 @@
     --radius-md: calc(var(--radius) - 2px);
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) + 4px);
+    
+    /* Smaller font sizes like Bun docs */
+    --font-size-xs: 0.6875rem;
+    --font-size-sm: 0.8125rem;
+    --font-size-base: 0.875rem;
+    --font-size-lg: 0.9375rem;
+    --font-size-xl: 1.125rem;
+    --font-size-2xl: 1.375rem;
+    --font-size-3xl: 1.75rem;
+    --font-size-4xl: 2.125rem;
 }
 
 :root {
@@ -120,19 +130,34 @@
     * {
         @apply border-border outline-ring/50;
     }
+    html {
+        overflow-y: scroll;
+    }
     body {
         @apply bg-background text-foreground;
+        font-size: var(--font-size-base);
+        line-height: 1.6;
     }
     h1 {
-        font-size: var(--text-2xl);
-        font-weight: bold;
+        font-size: var(--font-size-3xl);
+        font-weight: 700;
+        line-height: 1.2;
     }
     h2 {
-        font-size: var(--text-xl);
-        font-weight: bold;
+        font-size: var(--font-size-2xl);
+        font-weight: 700;
+        line-height: 1.3;
     }
     h3 {
-        font-size: var(--text-lg);
-        font-weight: bold;
+        font-size: var(--font-size-xl);
+        font-weight: 600;
+        line-height: 1.4;
+    }
+    p {
+        font-size: var(--font-size-base);
+        line-height: 1.6;
+    }
+    small {
+        font-size: var(--font-size-sm);
     }
 }

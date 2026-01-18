@@ -36,7 +36,6 @@ export default async function Post({ params }: PostParams) {
 
     return (
         <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
-            <Header />
             <article className="flex flex-col p-10 md:p-20 gap-8 row-start-2 w-full max-w-[1000px]">
                 <h1 className="text-3xl">{post?.title}</h1>
                 <p>{post?.content}</p>

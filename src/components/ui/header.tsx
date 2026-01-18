@@ -13,15 +13,15 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
     const session = await auth();
     
     return (
-        <header className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full p-5">
-            <div className="flex justify-between w-full gap-4">
-                <Link href="/" className="flex flex-row items-center gap-2 font-bold text-2xl">
+        <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50">
+            <div className="container mx-auto flex justify-between items-center h-14">
+                <Link href="/" className="flex flex-row items-center gap-2 font-semibold text-base">
                     <Image
                         className="dark:invert"
                         src="/next.svg"
                         alt="Next.js logo"
-                        width={40}
-                        height={40}
+                        width={30}
+                        height={30}
                         priority
                     /> Blog
                 </Link>

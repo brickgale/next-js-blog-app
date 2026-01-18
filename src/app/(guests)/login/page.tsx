@@ -47,7 +47,6 @@ export default async function Login({ searchParams }: { searchParams: { error?: 
 
     return (
         <div className="flex flex-col gap-8 items-center justify-items-center max-w-[1300px] w-full min-h-screen">
-            <Header hideLoginBtn />
             <div className="flex flex-col items-center justify-items-center justify-center w-full h-max max-h-full p-5 flex-[3]">
                 <Card className="w-full max-w-[400px] h-full mb-[100px]">
                     <CardHeader>
