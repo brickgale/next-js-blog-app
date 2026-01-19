@@ -3,6 +3,7 @@ import { Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/ui/header";
 import Sidebar from "@/components/common/sidebar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({
     variable: "--font-inter",
@@ -21,15 +22,22 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body
                 className={`${inter.variable} ${geistMono.variable} antialiased`}
             >
-                <Header />
-                <main className="container flex mx-auto pt-14 min-h-screen">
-                    <Sidebar />
-                    {children}
-                </main>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Header />
+                    <main className="container flex mx-auto pt-14 min-h-screen">
+                        <Sidebar />
+                        {children}
+                    </main>
+                </ThemeProvider>
             </body>
         </html>
     );

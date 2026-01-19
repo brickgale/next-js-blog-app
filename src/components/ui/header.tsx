@@ -4,6 +4,7 @@ import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/lib/auth";
 import Logout from "@/components/log-out";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 interface HeaderProps {
     hideLoginBtn?: boolean;
@@ -25,24 +26,27 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
                         priority
                     /> Blog
                 </Link>
-                {(!hideLoginBtn && !session) && (
-                    <Button asChild variant="outline">
-                        <Link href="/login">
-                            Login <LogIn />
-                        </Link>
-                    </Button>
-                )}
-
-                {session && (
-                    <div className="flex gap-4 items-center">
-                        <Button asChild variant="ghost">
-                            <Link href="/dashboard">
-                                Dashboard
+                <div className="flex gap-2 items-center">
+                    <ThemeToggle />
+                    {(!hideLoginBtn && !session) && (
+                        <Button asChild variant="outline">
+                            <Link href="/login">
+                                Login <LogIn />
                             </Link>
                         </Button>
-                        <Logout />
-                    </div>
-                )}
+                    )}
+
+                    {session && (
+                        <div className="flex gap-2 items-center">
+                            <Button asChild variant="ghost">
+                                <Link href="/dashboard">
+                                    Dashboard
+                                </Link>
+                            </Button>
+                            <Logout />
+                        </div>
+                    )}
+                </div>
             </div>
         </header>
     );

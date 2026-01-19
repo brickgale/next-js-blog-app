@@ -14,9 +14,9 @@ export default async function Sidebar() {
   const categories = allCategories.filter(cat => !cat.parentId);
 
   return (
-    <aside className="w-80 sticky top-14 h-[calc(100vh-3.5rem)] border-r border-border overflow-y-auto">
-      <nav className="py-2 pr-3">
-        <ul className="space-y-1 text-sm">
+    <aside className="w-16 md:w-64 sticky top-14 -ml-2 h-[calc(100vh-3.5rem)] border-r border-border overflow-y-auto flex-shrink-0">
+      <nav className="py-2 md:pr-3">
+        <ul className="space-y-1 text-xs">
           {categories.map((category) => {
             const IconComponent = category.icon && (LucideIcons as any)[category.icon];
             return (
@@ -24,12 +24,13 @@ export default async function Sidebar() {
                 <Link 
                   href={`/category/${category.slug}`} 
                   className="block px-3 py-1.5 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors text-foreground flex items-center gap-2"
+                  title={category.name}
                 >
-                  {IconComponent && <IconComponent className="w-4 h-4" />}
-                  {category.name}
+                  {IconComponent && <IconComponent className="w-4 h-4 flex-shrink-0" />}
+                  <span className="hidden md:inline">{category.name}</span>
                 </Link>
                 {category.children.length > 0 && (
-                  <ul className="mt-1 space-y-1 text-muted-foreground">
+                  <ul className="hidden md:block mt-1 space-y-1 text-muted-foreground">
                     {category.children.map((child) => (
                       <li key={child.id}>
                         <Link 

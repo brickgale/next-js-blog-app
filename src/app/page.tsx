@@ -6,7 +6,7 @@ export default async function Home() {
     const posts = await prisma.post.findMany();
 
     return (
-        <div className="container mx-auto px-6 py-8">
+        <div className="container mx-auto px-6 py-8 max-w-[1000px]">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {posts?.map((post) => (
                     <Link key={post.id} href={`/posts/${post.slug}`} className="cursor-pointer">
