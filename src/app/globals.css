@@ -45,14 +45,14 @@
     --radius-xl: calc(var(--radius) + 4px);
     
     /* Smaller font sizes like Bun docs */
-    --font-size-xs: 0.6875rem;
-    --font-size-sm: 0.8125rem;
-    --font-size-base: 0.875rem;
-    --font-size-lg: 0.9375rem;
-    --font-size-xl: 1.125rem;
-    --font-size-2xl: 1.375rem;
-    --font-size-3xl: 1.75rem;
-    --font-size-4xl: 2.125rem;
+    --text-xs: 0.6875rem;
+    --text-sm: 0.8125rem;
+    --text-base: 0.875rem;
+    --text-lg: 0.9375rem;
+    --text-xl: 1.125rem;
+    --text-2xl: 1.375rem;
+    --text-3xl: 1.75rem;
+    --text-4xl: 2.125rem;
 }
 
 :root {
