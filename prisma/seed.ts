@@ -7,7 +7,76 @@ async function main() {
 
   // Clear existing data
   await prisma.post.deleteMany();
+  // Use raw MongoDB command to delete all categories (avoids relation issues)
+  await prisma.$runCommandRaw({
+    delete: 'Category',
+    deletes: [{ q: {}, limit: 0 }],
+  });
   await prisma.user.deleteMany();
+
+  // Create categories with parent-child relationships
+  const techCategory = await prisma.category.create({
+    data: {
+      name: 'Technology',
+      slug: 'technology',
+      description: 'All about technology and software development',
+      icon: 'Laptop',
+    },
+  });
+
+  const webDevCategory = await prisma.category.create({
+    data: {
+      name: 'Web Development',
+      slug: 'web-development',
+      description: 'Web development topics and tutorials',
+      parentId: techCategory.id,
+    },
+  });
+
+  const mobileDevCategory = await prisma.category.create({
+    data: {
+      name: 'Mobile Development',
+      slug: 'mobile-development',
+      description: 'Mobile app development guides',
+      parentId: techCategory.id,
+    },
+  });
+
+  const frameworksCategory = await prisma.category.create({
+    data: {
+      name: 'Frameworks',
+      slug: 'frameworks',
+      description: 'JavaScript frameworks and libraries',
+      parentId: webDevCategory.id,
+    },
+  });
+
+  const databaseCategory = await prisma.category.create({
+    data: {
+      name: 'Databases',
+      slug: 'databases',
+      description: 'Database management and ORMs',
+      parentId: techCategory.id,
+    },
+  });
+
+  const tutorialsCategory = await prisma.category.create({
+    data: {
+      name: 'Tutorials',
+      slug: 'tutorials',
+      description: 'Step-by-step guides and tutorials',
+      icon: 'BookOpen',
+    },
+  });
+
+  const guidesCategory = await prisma.category.create({
+    data: {
+      name: 'Guides',
+      slug: 'guides',
+      description: 'Comprehensive guides and documentation',
+      icon: 'FileText',
+    },
+  });
 
   // Create users
   const user1 = await prisma.user.create({
@@ -35,6 +104,7 @@ async function main() {
       content: 'Next.js is a powerful React framework for building modern web applications. It provides features like server-side rendering, static site generation, and API routes out of the box.',
       published: true,
       authorId: user1.id,
+      categoryIds: [frameworksCategory.id, webDevCategory.id, tutorialsCategory.id],
     },
   });
 
@@ -46,6 +116,7 @@ async function main() {
       content: 'Prisma is a next-generation ORM that makes database access easy with an auto-generated query builder, type safety, and migrations.',
       published: true,
       authorId: user2.id,
+      categoryIds: [databaseCategory.id, tutorialsCategory.id],
     },
   });
 
@@ -57,6 +128,7 @@ async function main() {
       content: 'Learn the best practices for building scalable and maintainable REST APIs using modern tools and frameworks.',
       published: true,
       authorId: user1.id,
+      categoryIds: [webDevCategory.id, guidesCategory.id],
     },
   });
 
@@ -68,10 +140,11 @@ async function main() {
       content: 'This is a draft post about upcoming features that we are working on. Stay tuned for more updates!',
       published: false,
       authorId: user2.id,
+      categoryIds: [techCategory.id],
     },
   });
 
-  console.log('Seeding finished. Created 2 users and 4 posts.');
+  console.log('Seeding finished. Created 2 users, 7 categories, and 4 posts.');
 }
 
 main()

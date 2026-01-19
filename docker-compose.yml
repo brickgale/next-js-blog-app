@@ -18,9 +18,14 @@ services:
         container_name: prisma-studio
         ports:
             - "${PRISMA_STUDIO_PORT:-5555}:5555"
+        environment:
+            - DATABASE_URL=mongodb://mongodb:27017/mydb
+        volumes:
+            - .:/app
+            - /app/node_modules
         command: node_modules/.bin/prisma studio
         depends_on:
-            - app # Ensures generate runs in the app container first if using shared volumes
+            - mongodb
 
     mongodb:
         image: mongo:8.0

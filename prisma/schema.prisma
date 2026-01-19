@@ -35,11 +35,26 @@ model Post {
     published           Boolean @default(false)
     author              User @relation(fields: [authorId], references: [id])
     authorId            String @db.ObjectId
+    categoryIds         String[] @db.ObjectId
 
     updatedAt           DateTime @updatedAt
     createdAt           DateTime @default(now())
 
     @@unique([authorId, slug])
+}
+
+model Category {
+    id              String @id @default(auto()) @map("_id") @db.ObjectId
+    name            String
+    slug            String @unique
+    description     String?
+    icon            String?
+    parentId        String? @db.ObjectId
+    parent          Category? @relation("CategoryToCategory", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    children        Category[] @relation("CategoryToCategory")
+
+    updatedAt       DateTime @updatedAt
+    createdAt       DateTime @default(now())
 }
 
 model Account {

@@ -1,64 +1,52 @@
 import Link from 'next/link';
+import prisma from '@/lib/prisma';
+import * as LucideIcons from 'lucide-react';
 
-export default function Sidebar() {
+export default async function Sidebar() {
+  const allCategories = await prisma.category.findMany({
+    include: {
+      children: true,
+    },
+    orderBy: { name: 'asc' },
+  });
+  
+  // Filter parent categories (those without parentId)
+  const categories = allCategories.filter(cat => !cat.parentId);
+
   return (
     <aside className="w-64 sticky top-14 h-[calc(100vh-3.5rem)] border-r border-border overflow-y-auto">
-      <nav className="py-2">
-        <div className="mb-8">
-          <h2 className="text-xs px-3 py-2 font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            Navigation
-          </h2>
-          <ul className="space-y-1">
-            <li>
+      <nav className="py-2 pr-3">
+        <ul className="space-y-1 text-xs">
+          {categories.map((category) => {
+            const IconComponent = category.icon && (LucideIcons as any)[category.icon];
+            
+            return (
+            <li key={category.id}>
               <Link 
-                href="/" 
-                className="block px-3 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
+                href={`/category/${category.slug}`} 
+                className="block px-3 py-1.5 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors text-foreground flex items-center gap-2"
               >
-                Home
+                {IconComponent && <IconComponent className="w-4 h-4" />}
+                {category.name}
               </Link>
+              {category.children.length > 0 && (
+                <ul className="ml-3 mt-1 space-y-1 text-muted-foreground">
+                  {category.children.map((child) => (
+                    <li key={child.id}>
+                      <Link 
+                        href={`/category/${child.slug}`} 
+                        className="block px-3 py-1.5 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
+                      >
+                        {child.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
-            <li>
-              <Link 
-                href="/posts" 
-                className="block px-3 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                All Posts
-              </Link>
-            </li>
-          </ul>
-        </div>
-        
-        <div className="mb-8">
-          <h2 className="text-xs px-3 py-2 font-semibold text-muted-foreground uppercase tracking-wider mb-3">
-            Categories
-          </h2>
-          <ul className="space-y-1">
-            <li>
-              <Link 
-                href="/category/tech" 
-                className="block px-3 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                Tech
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="/category/tutorials" 
-                className="block px-3 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                Tutorials
-              </Link>
-            </li>
-            <li>
-              <Link 
-                href="/category/guides" 
-                className="block px-3 py-2 text-sm rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
-              >
-                Guides
-              </Link>
-            </li>
-          </ul>
-        </div>
+            );
+          })}
+        </ul>
       </nav>
     </aside>
   );
