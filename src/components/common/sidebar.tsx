@@ -14,7 +14,7 @@ export default async function Sidebar() {
   const categories = allCategories.filter(cat => !cat.parentId);
 
   return (
-    <aside className="w-16 md:w-64 sticky top-14 -ml-2 h-[calc(100vh-3.5rem)] border-r border-border overflow-y-auto flex-shrink-0">
+    <aside className="w-16 md:w-54 sticky top-14 md:-ml-2 h-[calc(100vh-3.5rem)] border-r border-border overflow-y-auto flex-shrink-0">
       <nav className="py-2 md:pr-3">
         <ul className="space-y-1 text-xs">
           {categories.map((category) => {
@@ -23,7 +23,7 @@ export default async function Sidebar() {
               <li key={category.id}>
                 <Link 
                   href={`/category/${category.slug}`} 
-                  className="block px-3 py-1.5 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors text-foreground flex items-center gap-2"
+                  className="block px-3 py-1.5 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors text-foreground flex items-center md:gap-2 justify-center md:justify-start"
                   title={category.name}
                 >
                   {IconComponent && <IconComponent className="w-4 h-4 flex-shrink-0" />}

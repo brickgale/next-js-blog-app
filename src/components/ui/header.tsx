@@ -14,7 +14,7 @@ export default async function Header({ hideLoginBtn = false }: HeaderProps) {
     const session = await auth();
     
     return (
-        <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50">
+        <header className="w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 fixed top-0 z-50 px-4 md:px-0">
             <div className="container mx-auto flex justify-between items-center h-14">
                 <Link href="/" className="flex flex-row items-center gap-2 font-semibold text-base">
                     <Image
